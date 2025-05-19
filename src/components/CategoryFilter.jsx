@@ -1,15 +1,9 @@
 import { Form, Card, Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { selectCategories } from "../features/expenseSlice";
 
 const CategoryFilter = () => {
-  const categories = [
-    "Food",
-    "Transportation",
-    "Housing",
-    "Entertainment",
-    "Utilities",
-    "Healthcare",
-    "Other",
-  ];
+  const categories = useSelector(selectCategories)
 
   const months = [
     "January",

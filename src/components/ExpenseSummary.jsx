@@ -1,8 +1,10 @@
 
 import { Card, Row, Col, ProgressBar } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { selectSalary } from "../features/expenseSlice";
 
 const ExpenseSummary = () => {
-  const salary = 5000;
+  const salary = useSelector(selectSalary);
   const totalExpenses = 3000;
   const remainingBudget = 2000;
 
