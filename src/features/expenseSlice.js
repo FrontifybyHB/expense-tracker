@@ -43,15 +43,17 @@ export const expenseSlice = createSlice({
         },
 
         editExpense: (state, action) => {
-            const { id, ...update } = action.payload;
-            const expenseIndex = state.expenses.findIndex((exp) => {
-                exp.id === id;
-            });
-            if (expenseIndex === -1) return;
-            state.expenses[expenseIndex] = {
-                ...state.expenses[expenseIndex],
-                ...update,
-                date: new Date(update.date).toISOString()
+            const { id, ...updates } = action.payload;
+            const expenseIndex = state.expenses.findIndex(
+                (expense) => expense.id === id
+            );
+
+            if (expenseIndex !== -1) {
+                state.expenses[expenseIndex] = {
+                    ...state.expenses[expenseIndex],
+                    ...updates,
+                    date: new Date(updates.date).toISOString()
+                }
             }
         },
 
@@ -67,5 +69,30 @@ export const { addExpense, addSalary, setFilter, editExpense, deleteExpense } = 
 
 export const selectSalary = (state) => state.expenses.salary;
 export const selectCategories = (state) => state.expenses.categories;
+export const selectFilter = (state) => state.expenses.filter;
+
+export const selectExpense = (state) => {
+    const { category, month, year } = state.expenses.filter
+
+    return state.expenses.expenses.filter(expense => {
+        const expenseDate = new Date(expense.date);
+        const matchesMonth = expenseDate.getMonth() === month;
+        const matchesYear = expenseDate.getFullYear() === year;
+        const matchesCategory = category === "All" || category === category;
+
+        return matchesMonth && matchesYear && matchesCategory
+    })
+
+}
+
+export const selectTotalExpense = (state) => {
+    const filterExpense = selectExpense(state);
+    return filterExpense.reduce((total, exp) => total + exp.amount, 0);
+}
+
+export const selectRemainingBudget = (state) => {
+    const totalExpense = selectTotalExpense(state);
+    return state.expenses.salary - totalExpense;
+}
 
 export default expenseSlice.reducer

@@ -1,9 +1,12 @@
 
 import { Card } from "react-bootstrap";
 import ExpenseItem from "./ExpenseItem";
+import { useSelector } from "react-redux";
+import { selectExpense } from "../features/expenseSlice";
 
 const ExpenseList = () => {
-  const expenses = [];
+  const expenses = useSelector(selectExpense);
+  
 
   return (
     <Card className="mb-4">
@@ -14,7 +17,7 @@ const ExpenseList = () => {
             No expenses found for the selected period.
           </p>
         ) : (
-          expenses.map((expense) => (
+          expenses.map((expense) => ( 
             <ExpenseItem key={expense.id} expense={expense} />
           ))
         )}

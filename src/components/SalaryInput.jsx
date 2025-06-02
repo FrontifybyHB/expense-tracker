@@ -5,7 +5,7 @@ import { addSalary } from "../features/expenseSlice";
 
 const SalaryInput = () => {
   const dispatch = useDispatch();
-  const [salary, setSalaryInput] = useState(5000);
+  const [salary, setSalaryInput] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
